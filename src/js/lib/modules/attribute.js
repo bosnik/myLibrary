@@ -1,5 +1,14 @@
 import $ from '../core';
 
+$.prototype.getAttribute = function(attributeName) {
+    for (let i = 0; i < this.length; i++) {
+        if (this[i]) {
+            this[i].getAttribute(attributeName);
+        }
+    }
+    return this;
+};
+
 $.prototype.addAttribute = function(attributeName, attributeValue) {
     for (let i = 0; i < this.length; i++) {
         if (this[i]) {
