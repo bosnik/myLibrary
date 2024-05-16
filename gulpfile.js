@@ -10,11 +10,18 @@ const postcss = require("gulp-postcss");
 
 // const dist = "/Applications/MAMP/htdocs/test"; // Ссылка на вашу папку на локальном сервере
 const dist = "./dist";
+const img = "./dist/img";
 
 gulp.task("copy-html", () => {
 	return gulp
 		.src("./src/index.html")
 		.pipe(gulp.dest(dist))
+		.pipe(browsersync.stream());
+});
+gulp.task("img", () => {
+	return gulp
+		.src("./src/img/*.jpeg")
+		.pipe(gulp.dest(img))
 		.pipe(browsersync.stream());
 });
 
@@ -74,11 +81,12 @@ gulp.task("watch", () => {
 	});
 
 	gulp.watch("./src/index.html", gulp.parallel("copy-html"));
+	gulp.watch("./src/img/*.jpeg", gulp.parallel("img"));
 	gulp.watch("./src/js/**/*.js", gulp.parallel("build-js"));
 	gulp.watch("./src/sass/**/*.scss", gulp.parallel("build-sass"));
 });
 
-gulp.task("build", gulp.parallel("copy-html", "build-js", "build-sass"));
+gulp.task("build", gulp.parallel("copy-html", "img", "build-js", "build-sass"));
 
 gulp.task("prod", () => {
 	gulp
